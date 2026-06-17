@@ -3,33 +3,136 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>麦当劳人格测试</title>
+<title>McBTI 麦当劳人格测试</title>
 <style>
-:root{--red:#d00000;--red-dark:#8f0000;--yellow:#ffc72c;--cream:#fff7df;--text:#4b1b00}
+:root{
+  --red:#d00000;
+  --red-dark:#8f0000;
+  --yellow:#ffc72c;
+  --cream:#fff7df;
+  --text:#4b1b00;
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial,sans-serif;color:var(--cream);background:radial-gradient(circle at 13% 0%,rgba(255,199,44,.38) 0 16%,transparent 34%),radial-gradient(circle at 92% 7%,rgba(255,199,44,.25) 0 13%,transparent 30%),linear-gradient(180deg,#e00000 0%,#c30000 45%,#8f0000 100%)}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
+  color:var(--cream);
+  background:
+    radial-gradient(circle at 13% 0%,rgba(255,199,44,.38) 0 16%,transparent 34%),
+    radial-gradient(circle at 92% 7%,rgba(255,199,44,.25) 0 13%,transparent 30%),
+    linear-gradient(180deg,#e00000 0%,#c30000 45%,#8f0000 100%);
+}
 .wrap{max-width:720px;margin:auto;padding:22px 18px 42px}
-.hero,.card,.result-card{background:linear-gradient(180deg,#d90000,#b70000);border-radius:34px;box-shadow:0 22px 60px rgba(40,0,0,.36);border:2px solid rgba(255,199,44,.68)}
-.hero{min-height:calc(100vh - 44px);padding:30px 24px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
-.hero:before{content:"";position:absolute;right:-54px;top:-28px;width:205px;height:245px;background:linear-gradient(180deg,#ffc72c,#ffad00);border-radius:0 0 100px 100px;opacity:.92;transform:rotate(10deg)}
-.hero:after{content:"M";position:absolute;right:16px;top:30px;font-size:96px;line-height:1;font-weight:950;color:#d00000;opacity:.35;transform:rotate(8deg)}
+.hero,.card,.result-card{
+  background:linear-gradient(180deg,#d90000,#b70000);
+  border-radius:34px;
+  box-shadow:0 22px 60px rgba(40,0,0,.36);
+  border:2px solid rgba(255,199,44,.68);
+}
+.hero{
+  min-height:calc(100vh - 44px);
+  padding:30px 24px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  position:relative;
+  overflow:hidden;
+}
+.hero:before{
+  content:"";
+  position:absolute;
+  right:-54px;
+  top:-28px;
+  width:205px;
+  height:245px;
+  background:linear-gradient(180deg,#ffc72c,#ffad00);
+  border-radius:0 0 100px 100px;
+  opacity:.92;
+  transform:rotate(10deg);
+}
+.hero:after{
+  content:"M";
+  position:absolute;
+  right:16px;
+  top:30px;
+  font-size:96px;
+  line-height:1;
+  font-weight:950;
+  color:#d00000;
+  opacity:.35;
+  transform:rotate(8deg);
+}
 .hero>div{position:relative;z-index:1}
-.tag{display:inline-block;background:var(--yellow);border-radius:999px;padding:8px 12px;font-size:13px;font-weight:900;color:#8b0000;box-shadow:0 8px 18px rgba(0,0,0,.18)}
+.tag{
+  display:inline-block;
+  background:var(--yellow);
+  border-radius:999px;
+  padding:8px 12px;
+  font-size:13px;
+  font-weight:900;
+  color:#8b0000;
+  box-shadow:0 8px 18px rgba(0,0,0,.18);
+}
 h1{font-size:39px;line-height:1.05;margin:24px 0 14px;color:#fff7dd}
-.brand{display:block;font-size:1.85em;color:var(--yellow);font-weight:950;letter-spacing:-1px;text-shadow:0 5px 0 rgba(120,0,0,.55),0 0 24px rgba(255,199,44,.32)}
-.note{display:inline-block;margin-top:10px;font-size:14px;font-weight:900;color:#8b0000;background:var(--yellow);border-radius:999px;padding:6px 12px}
+.brand{
+  display:block;
+  font-size:1.85em;
+  color:var(--yellow);
+  font-weight:950;
+  letter-spacing:-1px;
+  text-shadow:0 5px 0 rgba(120,0,0,.55),0 0 24px rgba(255,199,44,.32);
+}
+.note{
+  display:inline-block;
+  margin-top:10px;
+  font-size:14px;
+  font-weight:900;
+  color:#8b0000;
+  background:var(--yellow);
+  border-radius:999px;
+  padding:6px 12px;
+}
 .sub{font-size:16px;line-height:1.7;color:#ffecc0}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0}
-.stat{background:rgba(255,199,44,.96);border:1px solid rgba(255,238,170,.9);border-radius:20px;padding:12px 8px;text-align:center;color:#8b0000;box-shadow:0 10px 22px rgba(0,0,0,.16)}
+.stat{
+  background:rgba(255,199,44,.96);
+  border:1px solid rgba(255,238,170,.9);
+  border-radius:20px;
+  padding:12px 8px;
+  text-align:center;
+  color:#8b0000;
+  box-shadow:0 10px 22px rgba(0,0,0,.16);
+}
 .stat b{display:block;font-size:22px;color:#d00000}
 .stat span{font-size:12px;color:#7a1600;font-weight:850}
 .stat button{background:none;color:inherit;border:0;box-shadow:none;padding:0;margin:0;width:100%;font:inherit;min-height:auto;cursor:pointer}
-button{width:100%;min-height:58px;border:0;border-radius:20px;background:linear-gradient(135deg,#ffc72c,#ffad00);color:#9b0000;font-size:17px;font-weight:950;box-shadow:0 14px 28px rgba(50,0,0,.28);cursor:pointer}
-button.secondary{background:#fff3cf;color:#c40000;border:2px solid rgba(255,199,44,.75);box-shadow:none}
+button{
+  width:100%;
+  min-height:58px;
+  border:0;
+  border-radius:20px;
+  background:linear-gradient(135deg,#ffc72c,#ffad00);
+  color:#9b0000;
+  font-size:17px;
+  font-weight:950;
+  box-shadow:0 14px 28px rgba(50,0,0,.28);
+  cursor:pointer;
+}
+button.secondary{
+  background:#fff3cf;
+  color:#c40000;
+  border:2px solid rgba(255,199,44,.75);
+  box-shadow:none;
+}
 button:disabled{cursor:not-allowed;opacity:.45}
 .small{font-size:12px;color:#ffecc0;text-align:center;line-height:1.6}
 .quiz,.result{display:none}
-.topbar{position:sticky;top:0;z-index:5;padding:12px 0;background:rgba(160,0,0,.72);backdrop-filter:blur(10px)}
+.topbar{
+  position:sticky;top:0;z-index:5;
+  padding:12px 0;
+  background:rgba(160,0,0,.72);
+  backdrop-filter:blur(10px);
+}
 .progress{height:12px;background:rgba(255,255,255,.18);border-radius:999px;overflow:hidden;border:1px solid rgba(255,199,44,.45)}
 .bar{height:100%;width:0;background:linear-gradient(90deg,#ffc72c,#fff1a8);transition:.2s}
 .counter{text-align:center;font-size:13px;color:#ffe6aa;font-weight:900;margin-top:8px}
@@ -37,45 +140,73 @@ button:disabled{cursor:not-allowed;opacity:.45}
 .qemoji{font-size:42px}
 .question{font-size:24px;font-weight:950;line-height:1.3;margin:10px 0 18px;color:#fff3cf}
 .options{display:grid;gap:12px}
-.option{background:#fff7df;color:#8b0000;box-shadow:none;border:2px solid rgba(255,199,44,.38);text-align:left;padding:16px;border-radius:22px;font-size:16px;line-height:1.45;font-weight:850}
+.option{
+  background:#fff7df;color:#8b0000;box-shadow:none;
+  border:2px solid rgba(255,199,44,.38);
+  text-align:left;padding:16px;border-radius:22px;
+  font-size:16px;line-height:1.45;font-weight:850;
+}
 .option.selected{border-color:var(--yellow);background:#ffc72c;color:#8b0000}
 .nav-buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
 .result-card{text-align:center;padding:24px 18px;margin-top:12px}
-.food-img-wrap{width:100%;max-width:330px;height:230px;margin:14px auto;border-radius:30px;background:#fff7df;display:flex;align-items:center;justify-content:center;overflow:hidden;border:2px solid rgba(255,199,44,.75)}
+.food-img-wrap{
+  width:100%;max-width:330px;height:230px;margin:14px auto;
+  border-radius:30px;background:#fff7df;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  border:2px solid rgba(255,199,44,.75);
+}
 .food-img{max-width:92%;max-height:92%;object-fit:contain;filter:drop-shadow(0 16px 18px rgba(0,0,0,.18))}
 .match{display:inline-block;background:var(--yellow);color:#9b0000;border-radius:999px;padding:7px 13px;font-size:13px;font-weight:950}
 .result h2{font-size:32px;color:var(--yellow);margin:14px 0 6px;text-shadow:0 3px 0 rgba(70,0,0,.35)}
 .type{color:#ffecc0;font-weight:900;margin-bottom:16px}
-.desc{white-space:pre-line;text-align:left;background:#fff7df;border:2px solid rgba(255,199,44,.75);border-radius:24px;padding:16px;font-size:16px;line-height:1.75;color:#4b1b00}
+.desc{
+  white-space:pre-line;
+  text-align:left;background:#fff7df;border:2px solid rgba(255,199,44,.75);
+  border-radius:24px;padding:16px;font-size:16px;line-height:1.75;color:#4b1b00;
+}
 .grid{display:grid;gap:12px;margin:16px 0}
-.mini{text-align:left;background:#fff7df;border:2px solid rgba(255,199,44,.55);border-radius:22px;padding:14px;line-height:1.55;color:#4b1b00}
+.mini{
+  text-align:left;background:#fff7df;border:2px solid rgba(255,199,44,.55);
+  border-radius:22px;padding:14px;line-height:1.55;color:#4b1b00;
+}
 .mini b{display:block;margin-bottom:5px;color:#c40000;font-size:18px}
 .actions{display:grid;gap:10px;margin-top:18px}
-.donate-area{margin-top:14px;padding:14px;border-radius:24px;background:rgba(255,199,44,.96);border:2px solid rgba(255,238,170,.85);color:#8b0000}
+.donate-area{
+  margin-top:14px;padding:14px;border-radius:24px;
+  background:rgba(255,199,44,.96);border:2px solid rgba(255,238,170,.85);color:#8b0000;
+}
 .donate-area p{font-size:13px;color:#8b0000;line-height:1.6;margin:0 0 10px;font-weight:850}
 .creator{text-align:center;font-size:10px;color:rgba(255,236,192,.72);margin-top:34px;line-height:1.6}
-.modal{display:none;position:fixed;inset:0;background:rgba(80,0,0,.72);z-index:99;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
+.modal{
+  display:none;position:fixed;inset:0;background:rgba(80,0,0,.72);z-index:99;
+  align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);
+}
 .modal.show{display:flex}
-.modal-card{background:#fff7df;border-radius:28px;padding:20px;max-width:390px;width:100%;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.35);color:#4b1b00;border:2px solid var(--yellow)}
+.modal-card{
+  background:#fff7df;border-radius:28px;padding:20px;max-width:390px;width:100%;
+  text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.35);
+  color:#4b1b00;border:2px solid var(--yellow);
+}
 .result-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;text-align:left;max-height:60vh;overflow:auto}
 .result-item{display:flex;align-items:center;gap:9px;background:#fff0be;border:1px solid rgba(255,199,44,.72);border-radius:16px;padding:10px;font-size:13px;font-weight:900;color:#8b0000}
 .result-item img{width:42px;height:42px;object-fit:contain}
 .result-item small{display:block;color:#7a1600;font-weight:700;margin-top:2px}
 .payqr{width:100%;border-radius:20px;border:1px solid #eee}
 .close-btn{margin-top:12px;background:#d00000;color:#ffc72c;box-shadow:none}
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(30px);background:#ffc72c;color:#8b0000;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:900;opacity:0;transition:.25s;z-index:100}
+.toast{
+  position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(30px);
+  background:#ffc72c;color:#8b0000;border-radius:999px;padding:10px 16px;
+  font-size:14px;font-weight:900;opacity:0;transition:.25s;z-index:100;
+}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}h1{font-size:52px}}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}h1{font-size:52px}
 </style>
 </head>
-
 <body>
 <div class="wrap">
-
 <section class="hero" id="home">
   <div>
     <div class="tag">🍟 娱乐测试 · 麦门人格识别器</div>
-    <h1>测一测你的<span class="brand">McBTI</span><span class="note">麦门人格测试</span></h1>
+    <h1>测一测你的<span class="brand">McBTI</span><span class="note">麦当劳薯条人格测试</span></h1>
     <p class="sub">回答 20 道类似 MBTI 的问题，看看你更像哪一款麦当劳食物。</p>
     <div class="stats">
       <div class="stat"><b>20</b><span>道问题</span></div>
@@ -129,7 +260,6 @@ button:disabled{cursor:not-allowed;opacity:.45}
   </div>
   <div class="creator">Creator: Denny Chen<br>Douyin: cjj6876</div>
 </section>
-
 </div>
 
 <div class="modal" id="resultsModal" onclick="closeResultsList()">
@@ -150,7 +280,6 @@ button:disabled{cursor:not-allowed;opacity:.45}
     <button class="close-btn" onclick="closeDonate()">关闭</button>
   </div>
 </div>
-
 <div class="toast" id="toast">已复制链接</div>
 
 <script>
@@ -165,7 +294,6 @@ love:"喜欢明确、认真、有长期感的关系。",
 work:"适合统筹、判断和承担责任。",
 tagline:"经典、可靠、有主菜气场"
 },
-
 spicy:{
 name:"麦辣鸡腿堡",
 img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2025/04/202504091717393584.png",
@@ -176,7 +304,6 @@ love:"喜欢心动感，不喜欢太平淡。",
 work:"适合冲刺型任务，越有压力越容易爆发。",
 tagline:"热烈、敢说、真诚"
 },
-
 grilled:{
 name:"板烧鸡腿堡",
 img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2024/10/202410121642022710.png",
@@ -187,7 +314,6 @@ love:"慢热但认真。",
 work:"适合持续执行和长期积累。",
 tagline:"温柔、务实、长期主义"
 },
-
 cheese:{
 name:"双层吉士汉堡",
 img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2025/05/202505191553352680.png",
@@ -198,7 +324,16 @@ love:"看重合适、默契和稳定输出。",
 work:"擅长拆解问题，喜欢快速看到结果。",
 tagline:"清醒、高效、性价比之王"
 },
-
+fish:{
+name:"麦香鱼",
+img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208081013175111.png",
+type:"安静敏感型人格",
+desc:"为什么是麦香鱼？\n\n麦香鱼一直是菜单里最安静的存在之一。\n\n它不靠刺激取胜，也不靠份量取胜。\n\n真正喜欢它的人往往会一直喜欢很多年。\n\n你也是这样。\n\n你可能不喜欢成为焦点。\n\n但真正了解你的人，会发现你比表面看起来更加细腻和丰富。",
+social:"安静但不冷漠，适合深聊。",
+love:"需要被理解，也愿意支持对方。",
+work:"适合观察、审美和细致判断。",
+tagline:"柔软、细腻、有边界感"
+},
 chicken:{
 name:"麦香鸡",
 img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208081013011355.png",
@@ -209,7 +344,6 @@ love:"喜欢自然舒服的关系。",
 work:"适合团队协作。",
 tagline:"随和、舒服、不内耗"
 },
-
 fries:{
 name:"薯条",
 img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208091547349086.png",
@@ -220,7 +354,6 @@ love:"喜欢轻松互动，也希望被坚定选择。",
 work:"适合连接资源、活跃团队。",
 tagline:"百搭、好相处、离不开"
 },
-
 nuggets:{
 name:"麦乐鸡",
 img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208091547543048.png",
@@ -231,18 +364,16 @@ love:"喜欢陪伴感和日常小确幸。",
 work:"适合创意、沟通和亲和力任务。",
 tagline:"可爱、治愈、分享欲强"
 },
-
 wings:{
 name:"麦辣鸡翅",
 img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2025/04/202504091714077263.png",
 type:"锋芒挑战型人格",
 desc:"为什么是麦辣鸡翅？\n\n麦辣鸡翅看起来不大。\n\n但战斗力非常强。\n\n你也是这样。\n\n很多人会低估你的竞争心。\n\n但真正开始较量时，你往往比别人想象得更认真、更坚定。",
-social:"有态度、有棱角。",
-love:"喜欢强烈吸引，但底线清楚。",
-work:"适合竞争型环境。",
-tagline:"有锋芒、有胜负欲"
+social:"有态度、有棱角，不喜欢无意义地迎合别人。",
+love:"喜欢强烈吸引，但底线很清楚，不会轻易将就。",
+work:"适合竞争型环境，越有挑战越容易激发你的状态。",
+tagline:"有锋芒、有胜负欲、不服输"
 },
-
 mcmuffin:{
 name:"猪柳蛋麦满分",
 img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208091558498724.png",
@@ -253,7 +384,6 @@ love:"喜欢节奏一致、互相支持。",
 work:"适合长期目标和规律项目。",
 tagline:"自律、稳健、早起潜力股"
 },
-
 hashbrown:{
 name:"薯饼",
 img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208091604513345.png",
@@ -264,7 +394,6 @@ love:"嘴硬心软，需要安全感。",
 work:"适合独立完成高质量任务。",
 tagline:"外脆内软、嘴硬心软"
 },
-
 sundae:{
 name:"新地",
 img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2020/03/202003191510126381.png",
@@ -275,7 +404,6 @@ love:"重视仪式感。",
 work:"适合审美、表达和体验设计。",
 tagline:"甜、浪漫、会生活"
 },
-
 mcflurry:{
 name:"奥利奥麦旋风",
 img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2020/03/202003191447419769.png",
@@ -286,7 +414,6 @@ love:"喜欢独特的人。",
 work:"适合创作、策划、灵感型任务。",
 tagline:"反差、有趣、脑洞很多"
 },
-
 pie:{
 name:"菠萝派",
 img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208091557147058.png",
@@ -297,7 +424,6 @@ love:"慢热真诚，细水长流。",
 work:"适合维护关系和长期坚持。",
 tagline:"温暖、怀旧、可靠"
 },
-
 corn:{
 name:"玉米杯",
 img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208091548118821.png",
@@ -308,7 +434,6 @@ love:"喜欢干净真诚的关系。",
 work:"适合有秩序、低内耗的任务。",
 tagline:"清爽、稳定、低内耗"
 },
-
 coffee:{
 name:"麦咖啡拿铁",
 img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208292205408283.png",
@@ -318,9 +443,10 @@ social:"不一定话多，但常常一针见血。",
 love:"喜欢有思想、有边界、有成长性的关系。",
 work:"适合分析、规划和复杂判断。",
 tagline:"成熟、清醒、有质感"
+}
 };
-  
-const questions = [
+
+const questions=[
 ["🍔","朋友临时约你出门，你第一反应是？",[["看关系，好朋友可以马上走","fries"],["先看计划，不想被打乱","mcmuffin"],["有意思我会冲","spicy"],["更想安静待着","fish"]]],
 ["🌶️","面对喜欢的人，你更像哪种？",[["明显表达","spicy"],["慢慢观察","fish"],["自然相处","grilled"],["制造小惊喜","sundae"]]],
 ["🍟","你在团队里通常是？",[["稳定节奏和兜底","bigmac"],["提供想法","mcflurry"],["活跃气氛","nuggets"],["冲难题","wings"]]],
@@ -343,149 +469,23 @@ const questions = [
 ["🏆","你最想成为哪种人？",[["强大被信任","bigmac"],["自由不可替代","mcflurry"],["温暖被珍惜","pie"],["轻松低内耗","corn"]]]
 ];
 
-let current = 0;
-let answers = new Array(questions.length).fill(null);
+let current=0;
+let answers=new Array(questions.length).fill(null);
 
-function startQuiz(){
-  document.getElementById("home").style.display="none";
-  document.getElementById("quiz").style.display="block";
-  document.getElementById("result").style.display="none";
-  current = 0;
-  renderQ();
-  window.scrollTo(0,0);
-}
-
-function renderQ(){
-  const q = questions[current];
-  document.getElementById("qemoji").textContent = q[0];
-  document.getElementById("question").textContent = q[1];
-  document.getElementById("counter").textContent = `${current+1} / ${questions.length}`;
-  document.getElementById("bar").style.width = `${current/questions.length*100}%`;
-
-  const box = document.getElementById("options");
-  box.innerHTML = "";
-  q[2].forEach(op => {
-    const btn = document.createElement("button");
-    btn.className = "option" + (answers[current] === op[1] ? " selected" : "");
-    btn.textContent = op[0];
-    btn.onclick = () => choose(op[1]);
-    box.appendChild(btn);
-  });
-
-  document.getElementById("prevBtn").style.visibility = current === 0 ? "hidden" : "visible";
-  document.getElementById("nextBtn").textContent = current === questions.length - 1 ? "查看结果 →" : "下一题 →";
-  document.getElementById("nextBtn").disabled = answers[current] === null;
-  document.getElementById("nextBtn").style.opacity = answers[current] === null ? ".45" : "1";
-}
-
-function choose(key){
-  answers[current] = key;
-  if(current >= questions.length - 1){
-    showResult();
-  } else {
-    current++;
-    renderQ();
-    window.scrollTo({top:0,behavior:"smooth"});
-  }
-}
-
-function prevQuestion(){
-  if(current <= 0) return;
-  current--;
-  renderQ();
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-
-function nextQuestion(){
-  if(answers[current] === null){
-    toast("请先选择一个答案");
-    return;
-  }
-  if(current >= questions.length - 1){
-    showResult();
-  } else {
-    current++;
-    renderQ();
-    window.scrollTo({top:0,behavior:"smooth"});
-  }
-}
-
-function calculateScores(){
-  const scores = {};
-  Object.keys(foods).forEach(k => scores[k] = 0);
-  answers.forEach(k => {
-    if(k && scores[k] !== undefined) scores[k] += 1;
-  });
-  return scores;
-}
-
-function showResult(){
-  if(answers.some(a => a === null)){
-    toast("还有题目没有完成");
-    return;
-  }
-
-  const scores = calculateScores();
-  const sorted = Object.keys(scores).sort((a,b)=>scores[b]-scores[a]);
-  const topScore = scores[sorted[0]];
-  const candidates = sorted.filter(k => scores[k] >= topScore - 1);
-  const best = candidates[Math.floor(Math.random() * candidates.length)];
-  const pct = Math.floor(Math.random() * 16) + 80;
-  const f = foods[best];
-
-  document.getElementById("quiz").style.display="none";
-  document.getElementById("result").style.display="block";
-  document.getElementById("match").textContent=`匹配度 ${pct}%`;
-  document.getElementById("foodImg").src=f.img;
-  document.getElementById("foodName").textContent=f.name;
-  document.getElementById("foodType").textContent=f.type;
-  document.getElementById("foodDesc").textContent=f.desc;
-  document.getElementById("social").textContent=f.social;
-  document.getElementById("love").textContent=f.love;
-  document.getElementById("work").textContent=f.work;
-  document.getElementById("tagline").textContent=f.tagline;
-  window.scrollTo(0,0);
-}
-
-function restart(){
-  current = 0;
-  answers = new Array(questions.length).fill(null);
-  document.getElementById("result").style.display="none";
-  document.getElementById("home").style.display="flex";
-  window.scrollTo(0,0);
-}
-
-function openResultsList(){
-  const box = document.getElementById("resultList");
-  box.innerHTML = Object.keys(foods).map(k => {
-    const f = foods[k];
-    return `<div class="result-item"><img src="${f.img}"><span>${f.name}<small>${f.type}</small></span></div>`;
-  }).join("");
-  document.getElementById("resultsModal").classList.add("show");
-}
-
-function closeResultsList(){
-  document.getElementById("resultsModal").classList.remove("show");
-}
-
-function openDonate(){
-  document.getElementById("donateModal").classList.add("show");
-}
-
-function closeDonate(){
-  document.getElementById("donateModal").classList.remove("show");
-}
-
-function copyLink(){
-  navigator.clipboard.writeText(location.href).then(()=>toast("已复制链接")).catch(()=>toast("请手动复制浏览器地址"));
-}
-
-function toast(t){
-  const el=document.getElementById("toast");
-  el.textContent=t;
-  el.classList.add("show");
-  setTimeout(()=>el.classList.remove("show"),1800);
-}
+function startQuiz(){document.getElementById("home").style.display="none";document.getElementById("quiz").style.display="block";document.getElementById("result").style.display="none";current=0;renderQ();window.scrollTo(0,0)}
+function renderQ(){const q=questions[current];document.getElementById("qemoji").textContent=q[0];document.getElementById("question").textContent=q[1];document.getElementById("counter").textContent=`${current+1} / ${questions.length}`;document.getElementById("bar").style.width=`${current/questions.length*100}%`;const box=document.getElementById("options");box.innerHTML="";q[2].forEach(op=>{const btn=document.createElement("button");btn.className="option"+(answers[current]===op[1]?" selected":"");btn.textContent=op[0];btn.onclick=()=>choose(op[1]);box.appendChild(btn)});document.getElementById("prevBtn").style.visibility=current===0?"hidden":"visible";document.getElementById("nextBtn").textContent=current===questions.length-1?"查看结果 →":"下一题 →";document.getElementById("nextBtn").disabled=answers[current]===null;document.getElementById("nextBtn").style.opacity=answers[current]===null?".45":"1"}
+function choose(key){answers[current]=key;if(current>=questions.length-1){showResult()}else{current++;renderQ();window.scrollTo({top:0,behavior:"smooth"})}}
+function prevQuestion(){if(current<=0)return;current--;renderQ();window.scrollTo({top:0,behavior:"smooth"})}
+function nextQuestion(){if(answers[current]===null){toast("请先选择一个答案");return}if(current>=questions.length-1){showResult()}else{current++;renderQ();window.scrollTo({top:0,behavior:"smooth"})}}
+function calculateScores(){const scores={};Object.keys(foods).forEach(k=>scores[k]=0);answers.forEach(k=>{if(k&&scores[k]!==undefined)scores[k]+=1});return scores}
+function showResult(){if(answers.some(a=>a===null)){toast("还有题目没有完成");return}const scores=calculateScores();const sorted=Object.keys(scores).sort((a,b)=>scores[b]-scores[a]);const topScore=scores[sorted[0]];const candidates=sorted.filter(k=>scores[k]>=topScore-1);const best=candidates[Math.floor(Math.random()*candidates.length)];const pct=Math.floor(Math.random()*16)+80;const f=foods[best];document.getElementById("quiz").style.display="none";document.getElementById("result").style.display="block";document.getElementById("match").textContent=`匹配度 ${pct}%`;document.getElementById("foodImg").src=f.img;document.getElementById("foodName").textContent=f.name;document.getElementById("foodType").textContent=f.type;document.getElementById("foodDesc").textContent=f.desc;document.getElementById("social").textContent=f.social;document.getElementById("love").textContent=f.love;document.getElementById("work").textContent=f.work;document.getElementById("tagline").textContent=f.tagline;window.scrollTo(0,0)}
+function restart(){current=0;answers=new Array(questions.length).fill(null);document.getElementById("result").style.display="none";document.getElementById("home").style.display="flex";window.scrollTo(0,0)}
+function openResultsList(){const box=document.getElementById("resultList");box.innerHTML=Object.keys(foods).map(k=>{const f=foods[k];return `<div class="result-item"><img src="${f.img}"><span>${f.name}<small>${f.type}</small></span></div>`}).join("");document.getElementById("resultsModal").classList.add("show")}
+function closeResultsList(){document.getElementById("resultsModal").classList.remove("show")}
+function openDonate(){document.getElementById("donateModal").classList.add("show")}
+function closeDonate(){document.getElementById("donateModal").classList.remove("show")}
+function copyLink(){navigator.clipboard.writeText(location.href).then(()=>toast("已复制链接")).catch(()=>toast("请手动复制浏览器地址"))}
+function toast(t){const el=document.getElementById("toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1800)}
 </script>
 </body>
 </html>
