@@ -1,499 +1,272 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
-  <title>你是麦当劳中国大陆菜单里的哪款食物？</title>
-  <style>
-    :root {
-      --red: #db0007;
-      --yellow: #ffc72c;
-      --dark: #292929;
-      --light: #fff8e7;
-      --card: #ffffff;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: radial-gradient(circle at top, #fff1b8 0%, #fff8e7 35%, #f7f7f7 100%);
-      color: var(--dark);
-      min-height: 100vh;
-    }
-    .container {
-      max-width: 880px;
-      margin: 0 auto;
-      padding: 32px 18px 56px;
-    }
-    .hero {
-      background: linear-gradient(135deg, var(--red), #a50005);
-      color: white;
-      border-radius: 28px;
-      padding: 34px 28px;
-      box-shadow: 0 18px 45px rgba(219,0,7,.22);
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::after {
-      content: "M";
-      position: absolute;
-      right: 24px;
-      bottom: -38px;
-      color: rgba(255,199,44,.24);
-      font-weight: 900;
-      font-size: 170px;
-      line-height: 1;
-    }
-    h1 { margin: 0 0 10px; font-size: clamp(30px, 5vw, 52px); letter-spacing: -1.2px; }
-    .subtitle { max-width: 610px; line-height: 1.7; opacity: .94; font-size: 16px; margin: 0; }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--yellow);
-      color: #3b2500;
-      font-weight: 800;
-      padding: 8px 13px;
-      border-radius: 999px;
-      margin-bottom: 18px;
-    }
-    .panel {
-      margin-top: 22px;
-      background: var(--card);
-      border-radius: 24px;
-      box-shadow: 0 14px 38px rgba(0,0,0,.09);
-      padding: 24px;
-    }
-    .progress-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
-    .progress {
-      height: 12px;
-      flex: 1;
-      border-radius: 999px;
-      background: #eee;
-      overflow: hidden;
-    }
-    .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--yellow), var(--red)); transition: width .25s ease; }
-    .q-count { font-weight: 800; color: #666; white-space: nowrap; }
-    .question { font-size: clamp(22px, 3.5vw, 32px); font-weight: 900; line-height: 1.25; margin: 0 0 18px; }
-    .options { display: grid; gap: 12px; }
-    button.option {
-      width: 100%;
-      border: 2px solid #eeeeee;
-      background: #fff;
-      border-radius: 18px;
-      padding: 16px 18px;
-      text-align: left;
-      cursor: pointer;
-      font-size: 16px;
-      line-height: 1.45;
-      transition: transform .15s ease, border-color .15s ease, background .15s ease;
-    }
-    button.option:hover { transform: translateY(-2px); border-color: var(--yellow); background: #fffdf4; }
-    .result { display: none; text-align: center; }
-    .food-emoji { font-size: 78px; margin: 4px 0 6px; }
-    .result h2 { margin: 8px 0 8px; font-size: clamp(30px, 4vw, 46px); }
-    .result .type { color: var(--red); font-weight: 900; }
-    .desc { max-width: 650px; margin: 14px auto 0; line-height: 1.85; font-size: 17px; }
-    .traits {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 12px;
-      margin: 24px 0 12px;
-    }
-    .trait {
-      background: #fff7df;
-      border: 1px solid #ffe09a;
-      border-radius: 16px;
-      padding: 13px;
-      font-weight: 800;
-    }
-    .actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
-    .primary, .secondary {
-      border: none;
-      border-radius: 999px;
-      padding: 13px 19px;
-      font-weight: 900;
-      cursor: pointer;
-      font-size: 15px;
-    }
-    .primary { background: var(--red); color: white; }
-    .secondary { background: var(--yellow); color: #392400; }
-    .footer-note { margin-top: 18px; color: #777; font-size: 13px; text-align: center; }
-    .hidden { display: none; }
-    .creator-credit { text-align:center; font-size:10px; opacity:.5; margin-top:38px; letter-spacing:.2px; }
-
-
-    /* Mobile-first polish */
-    html { -webkit-text-size-adjust: 100%; }
-    button, input, textarea { font: inherit; }
-    button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
-
-    @media (max-width: 640px) {
-      body {
-        background: linear-gradient(180deg, #fff0b3 0%, #fff8e7 42%, #f7f7f7 100%);
-      }
-      .container {
-        width: 100%;
-        padding: max(14px, env(safe-area-inset-top)) 12px max(28px, env(safe-area-inset-bottom));
-      }
-      .hero {
-        border-radius: 22px;
-        padding: 24px 18px 26px;
-        box-shadow: 0 12px 30px rgba(219,0,7,.18);
-      }
-      .hero::after {
-        right: 8px;
-        bottom: -28px;
-        font-size: 118px;
-      }
-      .badge {
-        font-size: 13px;
-        padding: 7px 11px;
-        margin-bottom: 14px;
-      }
-      h1 {
-        line-height: .98;
-        margin-bottom: 14px;
-      }
-      .subtitle {
-        font-size: 14.5px;
-        line-height: 1.65;
-      }
-      .panel {
-        margin-top: 14px;
-        border-radius: 22px;
-        padding: 18px 14px;
-      }
-      .progress-wrap {
-        gap: 8px;
-        margin-bottom: 18px;
-      }
-      .progress { height: 10px; }
-      .q-count { font-size: 13px; }
-      .question {
-        font-size: 23px;
-        line-height: 1.28;
-        margin-bottom: 16px;
-      }
-      .options { gap: 10px; }
-      button.option {
-        min-height: 58px;
-        border-radius: 16px;
-        padding: 15px 15px;
-        font-size: 16px;
-      }
-      button.option:active {
-        transform: scale(.99);
-        border-color: var(--yellow);
-        background: #fff8dc;
-      }
-      button.option:hover { transform: none; }
-      .food-emoji { font-size: 66px; }
-      .result h2 { font-size: 30px; line-height: 1.2; }
-      .desc { font-size: 15.5px; line-height: 1.75; }
-      .traits {
-        grid-template-columns: 1fr 1fr;
-        gap: 9px;
-        margin-top: 20px;
-      }
-      .trait {
-        border-radius: 14px;
-        padding: 11px 8px;
-        font-size: 13.5px;
-      }
-      .actions {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 10px;
-        margin-top: 20px;
-      }
-      .primary, .secondary {
-        width: 100%;
-        min-height: 48px;
-        font-size: 15.5px;
-      }
-      .footer-note { font-size: 12px; line-height: 1.5; }
-      .creator-credit {
-        text-align: center;
-        font-size: 9px;
-        opacity: .45;
-        margin-top: 34px;
-        letter-spacing: .2px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>麦当劳人格测试</title>
+<style>
+:root{--red:#db0007;--yellow:#ffc72c;--dark:#292929}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial,sans-serif;background:linear-gradient(180deg,#fff8df,#fff,#fff0b8);color:var(--dark)}
+.wrap{max-width:720px;margin:auto;padding:22px 18px 42px}
+.hero,.card,.result-card{background:rgba(255,255,255,.94);border-radius:28px;box-shadow:0 18px 50px rgba(0,0,0,.14);border:1px solid rgba(219,0,7,.08)}
+.hero{min-height:calc(100vh - 44px);padding:28px 22px;display:flex;flex-direction:column;justify-content:space-between}
+.tag{display:inline-block;background:#fff0be;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:800;color:#7a4a00}
+h1{font-size:39px;line-height:1.05;margin:24px 0 14px}
+.brand{display:block;font-size:1.55em;color:var(--red);font-weight:950;text-shadow:0 5px 0 rgba(255,199,44,.55)}
+.note{display:inline-block;margin-top:10px;font-size:14px;font-weight:500;color:#777;background:#f5f5f5;border-radius:999px;padding:5px 10px}
+.sub{font-size:16px;line-height:1.7;color:#4c4c4c}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0}
+.stat{background:#fff8e3;border:1px solid rgba(255,199,44,.45);border-radius:18px;padding:12px 8px;text-align:center}
+.stat b{display:block;font-size:21px;color:var(--red)}
+.stat span{font-size:12px;color:#666}
+.stat button{background:none;color:inherit;border:0;box-shadow:none;padding:0;margin:0;width:100%;font:inherit}
+button{width:100%;min-height:56px;border:0;border-radius:18px;background:linear-gradient(135deg,var(--red),#a40000);color:white;font-size:17px;font-weight:850;box-shadow:0 12px 24px rgba(219,0,7,.24)}
+button.secondary{background:#fff;color:var(--red);border:1.5px solid rgba(219,0,7,.22);box-shadow:none}
+.small{font-size:12px;color:#888;text-align:center;line-height:1.6}
+.quiz,.result{display:none}
+.topbar{position:sticky;top:0;z-index:5;padding:12px 0;background:rgba(255,248,223,.72);backdrop-filter:blur(10px)}
+.progress{height:12px;background:#ffe4e5;border-radius:999px;overflow:hidden}
+.bar{height:100%;width:0;background:linear-gradient(90deg,var(--yellow),var(--red))}
+.counter{text-align:center;font-size:13px;color:#777;font-weight:800;margin-top:8px}
+.card{padding:22px 18px;margin-top:12px}
+.qemoji{font-size:42px}
+.question{font-size:24px;font-weight:900;line-height:1.3;margin:10px 0 18px}
+.options{display:grid;gap:12px}
+.option{background:white;color:#222;box-shadow:none;border:1.5px solid #eee;text-align:left;padding:16px;border-radius:20px;font-size:16px;line-height:1.45;font-weight:760}
+.result-card{text-align:center;padding:24px 18px;margin-top:12px}
+.food-img-wrap{width:100%;max-width:330px;height:230px;margin:14px auto;border-radius:28px;background:linear-gradient(180deg,#fff7d6,#fff);display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid rgba(255,199,44,.45)}
+.food-img{max-width:92%;max-height:92%;object-fit:contain;filter:drop-shadow(0 16px 18px rgba(0,0,0,.16))}
+.match{display:inline-block;background:var(--red);color:#fff;border-radius:999px;padding:7px 13px;font-size:13px;font-weight:850}
+.result h2{font-size:32px;color:var(--red);margin:14px 0 6px}
+.type{color:#777;font-weight:800;margin-bottom:16px}
+.desc{text-align:left;background:#fff9e9;border:1px solid rgba(255,199,44,.35);border-radius:22px;padding:16px;font-size:16px;line-height:1.75;color:#3f3f3f}
+.grid{display:grid;gap:12px;margin:16px 0}
+.mini{text-align:left;background:#fafafa;border:1px solid #eee;border-radius:20px;padding:14px;line-height:1.55}
+.mini b{display:block;margin-bottom:5px}
+.actions{display:grid;gap:10px;margin-top:18px}
+.donate-area{margin-top:14px;padding:14px;border-radius:22px;background:#fffaf0;border:1px solid rgba(255,199,44,.42)}
+.donate-area p{font-size:13px;color:#666;line-height:1.6;margin:0 0 10px}
+.creator{text-align:center;font-size:10px;color:rgba(41,41,41,.45);margin-top:34px;line-height:1.6}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:99;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
+.modal.show{display:flex}
+.modal-card{background:white;border-radius:28px;padding:20px;max-width:390px;width:100%;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.35)}
+.result-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;text-align:left;max-height:60vh;overflow:auto}
+.result-item{display:flex;align-items:center;gap:9px;background:#fff8e3;border:1px solid rgba(255,199,44,.42);border-radius:16px;padding:10px;font-size:13px;font-weight:800}
+.result-item img{width:42px;height:42px;object-fit:contain}
+.result-item small{display:block;color:#777;font-weight:600;margin-top:2px}
+.payqr{width:100%;border-radius:20px;border:1px solid #eee}
+.close-btn{margin-top:12px;background:#f4f4f4;color:#333;box-shadow:none}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(30px);background:#222;color:#fff;border-radius:999px;padding:10px 16px;font-size:14px;opacity:0;transition:.25s;z-index:100}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}h1{font-size:52px}}
+</style>
 </head>
+
 <body>
-  <main class="container">
-    <section class="hero">
-      <div class="badge">🍟 麦门人格测试</div>
-      <h1><span style="font-size:1.6em;font-weight:900;">麦当劳</span> <span style="font-size:0.45em;font-weight:400;opacity:0.75;">中国大陆</span></h1>
-      <p class="subtitle">回答 10 个轻松的问题，系统会根据你的社交方式、决策风格、情绪能量和生活口味，匹配一款最像你的麦当劳食物。仅供娱乐，但可能会有点准。</p>
-    </section>
+<div class="wrap">
 
-    <section class="panel" id="quizPanel">
-      <div class="progress-wrap">
-        <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
-        <div class="q-count" id="qCount">1 / 10</div>
+<section class="hero" id="home">
+  <div>
+    <div class="tag">🍔 娱乐测试 · 麦门人格识别器</div>
+    <h1>你是<span class="brand">麦当劳</span>菜单里的哪款食物？<span class="note">中国大陆菜单常见产品参考</span></h1>
+    <p class="sub">回答 20 道类似 MBTI 的问题，看看你更像哪一款麦当劳食物。</p>
+    <div class="stats">
+      <div class="stat"><b>20</b><span>道问题</span></div>
+      <div class="stat"><button onclick="openResultsList()"><b>16</b><span>种结果<br>点我查看</span></button></div>
+      <div class="stat"><b>2min</b><span>完成</span></div>
+    </div>
+  </div>
+  <div>
+    <button onclick="startQuiz()">开始测试</button>
+    <p class="small">仅供娱乐，不代表麦当劳官方意见，也不是严肃心理测评。</p>
+  </div>
+</section>
+
+<section class="quiz" id="quiz">
+  <div class="topbar">
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <div class="counter" id="counter"></div>
+  </div>
+  <div class="card">
+    <div class="qemoji" id="qemoji"></div>
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+  </div>
+</section>
+
+<section class="result" id="result">
+  <div class="result-card">
+    <div class="match" id="match"></div>
+    <div class="food-img-wrap"><img class="food-img" id="foodImg"></div>
+    <h2 id="foodName"></h2>
+    <div class="type" id="foodType"></div>
+    <div class="desc" id="foodDesc"></div>
+    <div class="grid">
+      <div class="mini"><b>社交风格</b><span id="social"></span></div>
+      <div class="mini"><b>恋爱风格</b><span id="love"></span></div>
+      <div class="mini"><b>学习/工作风格</b><span id="work"></span></div>
+      <div class="mini"><b>隐藏标签</b><span id="tagline"></span></div>
+    </div>
+    <div class="actions">
+      <button onclick="copyLink()">复制网页链接</button>
+      <button class="secondary" onclick="restart()">重新测试</button>
+      <div class="donate-area">
+        <p>如果这个测试让你开心了一分钟，欢迎请作者吃根薯条 🍟</p>
+        <button onclick="openDonate()">🍟 请作者吃根薯条</button>
       </div>
-      <h2 class="question" id="questionText"></h2>
-      <div class="options" id="options"></div>
-    </section>
+    </div>
+  </div>
+  <div class="creator">Creator: Denny Chen<br>Douyin: cjj6876</div>
+</section>
 
-    <section class="panel result" id="resultPanel">
-      <div class="food-emoji" id="foodEmoji"></div>
-      <h2>你是：<span class="type" id="foodName"></span></h2>
-      <p class="desc" id="foodDesc"></p>
-      <div class="traits" id="traits"></div>
-      <div class="actions">
-        <button class="primary" onclick="restartQuiz()">重新测试</button>
-        <button class="secondary" onclick="shareResult()">复制我的结果</button>
-        <button class="secondary" onclick="copyPageLink()">复制网页链接</button>
-      </div>
-      <p class="footer-note">注：本测试为粉丝向娱乐项目，并非麦当劳官方测试。</p>
-      <div class="creator-credit">Creator: Denny Chen</div>
-    </section>
-  </main>
+</div>
 
-  <script>
-    const foods = {
-      bigmac: {
-        name: "巨无霸",
-        emoji: "🍔",
-        desc: "你是经典中的核心人物。你不一定最张扬，但一出现就有存在感。你重视结构、原则和体面，喜欢把事情安排得有层次；别人遇到复杂问题时，也常常会来找你拿主意。",
-        traits: ["经典可靠", "领导感", "有层次", "稳中带强"]
-      },
-      spicyChicken: {
-        name: "麦辣鸡腿堡",
-        emoji: "🔥",
-        desc: "你外表可能很随和，内心其实很有冲劲。你喜欢直接、刺激、有效率的生活，不太喜欢拖泥带水。你有热血的一面，越到关键时刻越能爆发。",
-        traits: ["行动派", "有脾气也有魅力", "敢冲", "不服输"]
-      },
-      grilledChicken: {
-        name: "原味板烧鸡腿堡",
-        emoji: "🍗",
-        desc: "你是舒服、稳定、耐看型人格。你不靠夸张取胜，而是靠长期相处后的踏实感。你有自己的节奏，不太喜欢过度内耗，更愿意把日子过得顺一点、稳一点。",
-        traits: ["温和稳定", "耐看型", "靠谱", "生活感强"]
-      },
-      fries: {
-        name: "薯条",
-        emoji: "🍟",
-        desc: "你是气氛组本人。你不一定总是主角，但你能让整个场子变得更好。你适应力强，和很多类型的人都能相处，也常常是朋友之间最容易被想起的人。",
-        traits: ["百搭", "气氛组", "朋友缘好", "轻松自然"]
-      },
-      nuggets: {
-        name: "麦乐鸡",
-        emoji: "🧡",
-        desc: "你看起来简单可爱，但其实很有自己的偏好。你重视安全感和熟悉感，喜欢小而确定的快乐。你不是时时刻刻都要赢，但你很懂怎么让自己开心。",
-        traits: ["可爱但有主见", "治愈系", "安全感", "小快乐专家"]
-      },
-      filet: {
-        name: "麦香鱼",
-        emoji: "🐟",
-        desc: "你是安静但特别的人。你不太需要在人群中抢风头，但你的存在有一种独特的辨识度。你敏感、细腻，有时慢热，但熟悉后会发现你很有自己的世界。",
-        traits: ["慢热", "细腻", "特别", "低调有辨识度"]
-      },
-      mcflurry: {
-        name: "奥利奥麦旋风",
-        emoji: "🍦",
-        desc: "你是甜酷混合型人格。你有可爱、轻松的一面，也有一点小叛逆和小戏剧感。你容易被新鲜感吸引，喜欢好玩、有氛围、有记忆点的东西。",
-        traits: ["甜酷", "新鲜感", "有趣", "情绪感染力"]
-      },
-      muffin: {
-        name: "猪柳蛋麦满分",
-        emoji: "🌅",
-        desc: "你是早起型责任感人格。你重视效率、秩序和实际成果，不喜欢虚头巴脑。你的可靠不是靠说出来的，而是靠一次次把事情做好体现出来的。",
-        traits: ["责任感", "效率高", "务实", "能扛事"]
-      },
-      angus: {
-        name: "安格斯厚牛堡",
-        emoji: "🥩",
-        desc: "你有一点高级感，也有一点野心。你不太满足于普通标准，喜欢更好的体验、更强的实力和更体面的结果。你可能偶尔挑剔，但那是因为你真的有要求。",
-        traits: ["有野心", "高标准", "质感控", "目标感"]
-      },
-      corn: {
-        name: "玉米杯",
-        emoji: "🌽",
-        desc: "你是清爽、真诚、低负担的人。你不喜欢复杂的人际套路，更喜欢简单舒服的关系。你的优点不是攻击性，而是让人觉得安心、干净、没有压力。",
-        traits: ["清爽", "真诚", "低压力", "治愈"]
-      }
-    };
+<div class="modal" id="resultsModal" onclick="closeResultsList()">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <h3>16种可能结果</h3>
+    <p>完整麦门人格池如下：</p>
+    <div class="result-list" id="resultList"></div>
+    <button class="close-btn" onclick="closeResultsList()">关闭</button>
+  </div>
+</div>
 
-    const questions = [
-      {
-        text: "朋友约你出去玩，你通常更像哪种状态？",
-        options: [
-          { text: "我来定计划，路线、时间、吃什么都安排好", scores: { bigmac: 2, muffin: 1 } },
-          { text: "看大家想去哪，我负责让气氛别冷", scores: { fries: 2, mcflurry: 1 } },
-          { text: "只要舒服别太折腾，我都可以", scores: { grilledChicken: 2, corn: 1 } },
-          { text: "最好有点刺激或新鲜，不然没意思", scores: { spicyChicken: 2, angus: 1 } }
-        ]
-      },
-      {
-        text: "你面对压力时更常见的反应是？",
-        options: [
-          { text: "先冷静拆解问题，一步一步处理", scores: { bigmac: 2, muffin: 2 } },
-          { text: "直接硬上，越急越能逼出状态", scores: { spicyChicken: 2, angus: 1 } },
-          { text: "先找个让自己安心的小事缓一下", scores: { nuggets: 2, corn: 1 } },
-          { text: "会想很多，但也能从细节里找到突破口", scores: { filet: 2, grilledChicken: 1 } }
-        ]
-      },
-      {
-        text: "别人对你的第一印象最可能是？",
-        options: [
-          { text: "稳、有主见、像能管事的人", scores: { bigmac: 2, muffin: 1 } },
-          { text: "热情、有冲劲、不太好惹但很真实", scores: { spicyChicken: 2 } },
-          { text: "好相处、轻松、没有距离感", scores: { fries: 2, nuggets: 1 } },
-          { text: "安静、有点神秘，需要慢慢了解", scores: { filet: 2, corn: 1 } }
-        ]
-      },
-      {
-        text: "你最喜欢哪种生活节奏？",
-        options: [
-          { text: "规律、高效、每天都有推进", scores: { muffin: 2, bigmac: 1 } },
-          { text: "有计划，但不要太紧绷", scores: { grilledChicken: 2, corn: 1 } },
-          { text: "随性一点，开心最重要", scores: { fries: 2, mcflurry: 1 } },
-          { text: "要有目标感，最好能明显变强", scores: { angus: 2, spicyChicken: 1 } }
-        ]
-      },
-      {
-        text: "在一段关系里，你更看重什么？",
-        options: [
-          { text: "稳定、信任、长期陪伴", scores: { grilledChicken: 2, corn: 1 } },
-          { text: "激情、吸引力、互相点燃", scores: { spicyChicken: 2, mcflurry: 1 } },
-          { text: "舒服、好玩、能一起发疯", scores: { fries: 2, nuggets: 1 } },
-          { text: "深度理解，能懂我的复杂和敏感", scores: { filet: 2, bigmac: 1 } }
-        ]
-      },
-      {
-        text: "如果你要做一个重要选择，你会？",
-        options: [
-          { text: "列利弊，算清楚风险收益", scores: { muffin: 2, bigmac: 1 } },
-          { text: "看直觉，感觉对了就冲", scores: { spicyChicken: 2, mcflurry: 1 } },
-          { text: "问几个信任的人，再选舒服的方向", scores: { grilledChicken: 2, fries: 1 } },
-          { text: "标准很高，不想将就", scores: { angus: 2, filet: 1 } }
-        ]
-      },
-      {
-        text: "你更像哪一种快乐来源？",
-        options: [
-          { text: "完成目标后的成就感", scores: { angus: 2, muffin: 1 } },
-          { text: "朋友一起玩、一起笑", scores: { fries: 2, mcflurry: 1 } },
-          { text: "熟悉的小习惯、小确幸", scores: { nuggets: 2, grilledChicken: 1 } },
-          { text: "独处、思考、沉浸在自己的世界", scores: { filet: 2, corn: 1 } }
-        ]
-      },
-      {
-        text: "你最讨厌别人怎么评价你？",
-        options: [
-          { text: "说我没能力、靠不住", scores: { bigmac: 2, muffin: 1 } },
-          { text: "说我无聊、没个性", scores: { mcflurry: 2, spicyChicken: 1 } },
-          { text: "说我太普通、没追求", scores: { angus: 2 } },
-          { text: "说我麻烦、想太多", scores: { filet: 2, nuggets: 1 } }
-        ]
-      },
-      {
-        text: "你在人群中的角色更接近？",
-        options: [
-          { text: "组织者或决策者", scores: { bigmac: 2, muffin: 1 } },
-          { text: "气氛调节者", scores: { fries: 2, mcflurry: 1 } },
-          { text: "安静观察者", scores: { filet: 2, corn: 1 } },
-          { text: "关键时刻站出来的人", scores: { spicyChicken: 2, angus: 1 } }
-        ]
-      },
-      {
-        text: "选一个最像你的关键词。",
-        options: [
-          { text: "稳", scores: { grilledChicken: 2, bigmac: 1 } },
-          { text: "燃", scores: { spicyChicken: 2 } },
-          { text: "甜", scores: { mcflurry: 2, nuggets: 1 } },
-          { text: "清醒", scores: { corn: 2, filet: 1, muffin: 1 } }
-        ]
-      }
-    ];
+<div class="modal" id="donateModal" onclick="closeDonate()">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <h3>🍟 感谢支持</h3>
+    <p>如果这个测试让你开心了一分钟，欢迎请作者吃根薯条。</p>
+    <img class="payqr" src="donate.jpg" alt="微信赞赏码">
+    <p class="small">微信扫码赞赏 · 低调随缘</p>
+    <button class="close-btn" onclick="closeDonate()">关闭</button>
+  </div>
+</div>
 
-    let current = 0;
-    let scores = Object.fromEntries(Object.keys(foods).map(k => [k, 0]));
+<div class="toast" id="toast">已复制链接</div>
 
-    const questionText = document.getElementById('questionText');
-    const optionsEl = document.getElementById('options');
-    const qCount = document.getElementById('qCount');
-    const progressBar = document.getElementById('progressBar');
-    const quizPanel = document.getElementById('quizPanel');
-    const resultPanel = document.getElementById('resultPanel');
+<script>
+const foods={
+bigmac:{name:"巨无霸",img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208081011205699.png",type:"经典核心型人格",desc:"你像巨无霸：存在感强、层次丰富、很难被忽略。你通常不是最浮夸的人，但一到关键场合就会变成主心骨。",social:"朋友眼里你稳定、有分量，适合做局，也适合压场。",love:"喜欢明确、认真、有长期感的关系。",work:"适合统筹、判断和承担责任。",tagline:"经典、可靠、有主菜气场"},
+spicy:{name:"麦辣鸡腿堡",img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2025/04/202504091717393584.png",type:"热烈行动型人格",desc:"你像麦辣鸡腿堡：直接、有冲劲、情绪浓度高。你喜欢真实表达，讨厌拖泥带水。",social:"熟了以后很容易带动气氛。",love:"喜欢心动感，不喜欢太平淡。",work:"适合冲刺型任务，越有压力越容易爆发。",tagline:"热烈、敢说、真诚"},
+grilled:{name:"板烧鸡腿堡",img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2024/10/202410121642022710.png",type:"温暖实用型人格",desc:"你像板烧鸡腿堡：不一定张扬，但稳定、耐处、有安全感。",social:"亲近、不端着，适合长期朋友。",love:"慢热但认真。",work:"适合持续执行和长期积累。",tagline:"温柔、务实、长期主义"},
+cheese:{name:"双层吉士汉堡",img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2025/05/202505191553352680.png",type:"高效清醒型人格",desc:"你像双层吉士汉堡：目标明确，追求效率和性价比。",social:"不爱无效社交，但对认可的人很直接。",love:"看重合适、默契和稳定输出。",work:"擅长拆解问题，喜欢快速看到结果。",tagline:"清醒、高效、性价比之王"},
+fish:{name:"麦香鱼",img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208081013175111.png",type:"安静敏感型人格",desc:"你像麦香鱼：温和、细腻、有自己的精神世界。",social:"安静但不冷漠，适合深聊。",love:"需要被理解，也愿意支持对方。",work:"适合观察、审美和细致判断。",tagline:"柔软、细腻、有边界感"},
+chicken:{name:"麦香鸡",img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208081013011355.png",type:"轻松随和型人格",desc:"你像麦香鸡：相处轻松，不太给人压力。",social:"很好约、很好聊。",love:"喜欢自然舒服的关系。",work:"适合团队协作。",tagline:"随和、舒服、不内耗"},
+fries:{name:"薯条",img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208091547349086.png",type:"全民好友型人格",desc:"你像薯条：适配度极高，几乎和谁都能搭。",social:"人缘不错，能融入不同圈子。",love:"喜欢轻松互动，也希望被坚定选择。",work:"适合连接资源、活跃团队。",tagline:"百搭、好相处、离不开"},
+nuggets:{name:"麦乐鸡",img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208091547543048.png",type:"快乐陪伴型人格",desc:"你像麦乐鸡：可爱、亲切、适合分享。",social:"容易让人放松。",love:"喜欢陪伴感和日常小确幸。",work:"适合创意、沟通和亲和力任务。",tagline:"可爱、治愈、分享欲强"},
+wings:{name:"麦辣鸡翅",img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2025/04/202504091714077263.png",type:"锋芒挑战型人格",desc:"你像麦辣鸡翅：小小一份但很有攻击力。",social:"有态度、有棱角。",love:"喜欢强烈吸引，但底线清楚。",work:"适合竞争型环境。",tagline:"有锋芒、有胜负欲"},
+mcmuffin:{name:"猪柳蛋麦满分",img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208091558498724.png",type:"自律晨光型人格",desc:"你像猪柳蛋麦满分：有计划、有节奏，相信稳定积累。",social:"可靠守时。",love:"喜欢节奏一致、互相支持。",work:"适合长期目标和规律项目。",tagline:"自律、稳健、早起潜力股"},
+hashbrown:{name:"薯饼",img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208091604513345.png",type:"外脆内软型人格",desc:"你像薯饼：外表可能酷或倔，但内心其实很软。",social:"慢热，熟了反差明显。",love:"嘴硬心软，需要安全感。",work:"适合独立完成高质量任务。",tagline:"外脆内软、嘴硬心软"},
+sundae:{name:"新地",img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2020/03/202003191510126381.png",type:"甜感浪漫型人格",desc:"你像新地：情绪表达丰富，懂氛围，也懂生活的小甜头。",social:"有亲和力，容易制造轻松氛围。",love:"重视仪式感。",work:"适合审美、表达和体验设计。",tagline:"甜、浪漫、会生活"},
+mcflurry:{name:"奥利奥麦旋风",img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2020/03/202003191447419769.png",type:"反差创意型人格",desc:"你像奥利奥麦旋风：表面轻松，内里有很多想法。",social:"有梗、有脑洞。",love:"喜欢独特的人。",work:"适合创作、策划、灵感型任务。",tagline:"反差、有趣、脑洞很多"},
+pie:{name:"菠萝派",img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208091557147058.png",type:"温度记忆型人格",desc:"你像菠萝派：有温度、有回忆感，容易让人想起稳定的幸福。",social:"不吵但让人信任。",love:"慢热真诚，细水长流。",work:"适合维护关系和长期坚持。",tagline:"温暖、怀旧、可靠"},
+corn:{name:"玉米杯",img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208091548118821.png",type:"清爽健康型人格",desc:"你像玉米杯：清爽、简单、低攻击性。",social:"边界感清晰，舒服但不黏人。",love:"喜欢干净真诚的关系。",work:"适合有秩序、低内耗的任务。",tagline:"清爽、稳定、低内耗"},
+coffee:{name:"麦咖啡拿铁",img:"https://azofficialwebsitestorage.blob.core.chinacloudapi.cn/public/upload/attachment/2022/08/202208292205408283.png",type:"成熟观察型人格",desc:"你像麦咖啡拿铁：比外表更成熟，也更会观察人。",social:"不一定话多，但常常一针见血。",love:"喜欢有思想、有边界、有成长性的关系。",work:"适合分析、规划和复杂判断。",tagline:"成熟、清醒、有质感"}
+};
 
-    function renderQuestion() {
-      const q = questions[current];
-      questionText.textContent = q.text;
-      qCount.textContent = `${current + 1} / ${questions.length}`;
-      progressBar.style.width = `${(current / questions.length) * 100}%`;
-      optionsEl.innerHTML = '';
-      q.options.forEach(option => {
-        const btn = document.createElement('button');
-        btn.className = 'option';
-        btn.textContent = option.text;
-        btn.onclick = () => choose(option.scores);
-        optionsEl.appendChild(btn);
-      });
-    }
+const questions=[
+["🍔","朋友临时约你出门，你第一反应是？",[["看关系，好朋友可以马上走","fries"],["先看计划，不想被打乱","mcmuffin"],["有意思我会冲","spicy"],["更想安静待着","fish"]]],
+["🌶️","面对喜欢的人，你更像哪种？",[["明显表达","spicy"],["慢慢观察","fish"],["自然相处","grilled"],["制造小惊喜","sundae"]]],
+["🍟","你在团队里通常是？",[["稳定节奏和兜底","bigmac"],["提供想法","mcflurry"],["活跃气氛","nuggets"],["冲难题","wings"]]],
+["☕","你更讨厌哪种状态？",[["没有目标","cheese"],["不真诚","pie"],["太紧绷","chicken"],["没新鲜感","mcflurry"]]],
+["🥔","别人第一次见你可能觉得你？",[["好相处","fries"],["有距离感","coffee"],["存在感强","bigmac"],["很靠谱","grilled"]]],
+["🍦","你的快乐来源更接近？",[["完成目标","cheese"],["和喜欢的人待着","pie"],["新鲜体验","mcflurry"],["舒服简单","corn"]]],
+["🍗","遇到压力你会？",[["硬扛解决","wings"],["找人聊聊","nuggets"],["自己消化","hashbrown"],["制定计划","mcmuffin"]]],
+["🥧","你最看重朋友的什么？",[["靠谱守信","grilled"],["真诚情绪价值","sundae"],["有趣","mcflurry"],["有能力和边界","coffee"]]],
+["🧀","买东西你更容易被什么打动？",[["性价比","cheese"],["经典不出错","bigmac"],["刺激新品","spicy"],["颜值氛围","sundae"]]],
+["🐟","你更像哪句话？",[["我心里有数","fish"],["要做就做到最好","mcmuffin"],["开心最重要","chicken"],["人生需要刺激","wings"]]],
+["🌽","你的生活理想更接近？",[["规律健康","corn"],["热闹有故事","fries"],["自由有变化","mcflurry"],["成功有掌控","bigmac"]]],
+["🔥","如果被误解了，你会？",[["直接解释","spicy"],["看对方重不重要","coffee"],["先缓和气氛","chicken"],["懒得解释","hashbrown"]]],
+["🍨","你在感情里最需要？",[["稳定承诺","grilled"],["强烈心动","wings"],["被理解","fish"],["舒服陪伴","nuggets"]]],
+["🍘","周末最想怎么过？",[["朋友局","fries"],["训练学习整理","mcmuffin"],["探索新店","sundae"],["宅着恢复","hashbrown"]]],
+["🥪","处理冲突的方式是？",[["先冷静","corn"],["正面说清楚","spicy"],["站出来协调","bigmac"],["保持距离观察","coffee"]]],
+["🍔","你希望别人记住你的什么？",[["能力和结果","cheese"],["温度和真诚","pie"],["有趣独特","mcflurry"],["舒服可靠","chicken"]]],
+["☀️","早上起床后的状态？",[["马上进入计划","mcmuffin"],["需要开机","hashbrown"],["看心情","sundae"],["顺其自然","corn"]]],
+["🎯","你做决定更依赖？",[["逻辑分析","coffee"],["直觉感觉","spicy"],["长期稳定","grilled"],["别人反馈","fries"]]],
+["🧊","你的情绪表达通常是？",[["很明显","nuggets"],["表面平静内心很多","fish"],["比较稳定","corn"],["能热也能冷","cheese"]]],
+["🏆","你最想成为哪种人？",[["强大被信任","bigmac"],["自由不可替代","mcflurry"],["温暖被珍惜","pie"],["轻松低内耗","corn"]]]
+];
 
-    function choose(optionScores) {
-      for (const [food, value] of Object.entries(optionScores)) {
-        scores[food] += value;
-      }
-      current++;
-      if (current < questions.length) renderQuestion();
-      else showResult();
-    }
+let current=0;
+let scores={};
+Object.keys(foods).forEach(k=>scores[k]=0);
 
-    function showResult() {
-      progressBar.style.width = '100%';
-      let winner = Object.keys(scores).sort((a, b) => scores[b] - scores[a])[0];
-      const food = foods[winner];
-      document.getElementById('foodEmoji').textContent = food.emoji;
-      document.getElementById('foodName').textContent = food.name;
-      document.getElementById('foodDesc').textContent = food.desc;
-      const traitsEl = document.getElementById('traits');
-      traitsEl.innerHTML = '';
-      food.traits.forEach(t => {
-        const div = document.createElement('div');
-        div.className = 'trait';
-        div.textContent = t;
-        traitsEl.appendChild(div);
-      });
-      quizPanel.style.display = 'none';
-      resultPanel.style.display = 'block';
-    }
+function startQuiz(){
+document.getElementById("home").style.display="none";
+document.getElementById("quiz").style.display="block";
+renderQ();
+}
 
-    function restartQuiz() {
-      current = 0;
-      scores = Object.fromEntries(Object.keys(foods).map(k => [k, 0]));
-      quizPanel.style.display = 'block';
-      resultPanel.style.display = 'none';
-      renderQuestion();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+function renderQ(){
+const q=questions[current];
+document.getElementById("qemoji").textContent=q[0];
+document.getElementById("question").textContent=q[1];
+document.getElementById("counter").textContent=`${current+1} / ${questions.length}`;
+document.getElementById("bar").style.width=`${current/questions.length*100}%`;
+const box=document.getElementById("options");
+box.innerHTML="";
+q[2].forEach(op=>{
+const btn=document.createElement("button");
+btn.className="option";
+btn.textContent=op[0];
+btn.onclick=()=>choose(op[1]);
+box.appendChild(btn);
+});
+}
 
-    function shareResult() {
-      const text = `我的麦门人格测试结果是：${document.getElementById('foodName').textContent}！`;
-      navigator.clipboard?.writeText(text).then(() => {
-        alert('结果已复制，可以发给朋友了！');
-      }).catch(() => {
-        alert(text);
-      });
-    }
+function choose(key){
+scores[key]+=1;
+current++;
+if(current>=questions.length){showResult();}
+else{renderQ();window.scrollTo({top:0,behavior:"smooth"});}
+}
 
-    function copyPageLink() {
-      const link = window.location.href;
-      navigator.clipboard?.writeText(link).then(() => {
-        alert('网页链接已复制。上传到 GitHub Pages / Netlify / Vercel 后，这里复制的就是可分享网址。');
-      }).catch(() => {
-        alert(link);
-      });
-    }
+function showResult(){
+let best=Object.keys(scores).sort((a,b)=>scores[b]-scores[a] || Math.random()-0.5)[0];
+let total=Object.values(scores).reduce((a,b)=>a+b,0);
+let pct=Math.min(99,Math.max(76,Math.round(76+(scores[best]/total)*60)));
+const f=foods[best];
+document.getElementById("quiz").style.display="none";
+document.getElementById("result").style.display="block";
+document.getElementById("match").textContent=`匹配度 ${pct}%`;
+document.getElementById("foodImg").src=f.img;
+document.getElementById("foodName").textContent=f.name;
+document.getElementById("foodType").textContent=f.type;
+document.getElementById("foodDesc").textContent=f.desc;
+document.getElementById("social").textContent=f.social;
+document.getElementById("love").textContent=f.love;
+document.getElementById("work").textContent=f.work;
+document.getElementById("tagline").textContent=f.tagline;
+window.scrollTo(0,0);
+}
 
+function restart(){
+current=0;
+Object.keys(scores).forEach(k=>scores[k]=0);
+document.getElementById("result").style.display="none";
+document.getElementById("home").style.display="flex";
+window.scrollTo(0,0);
+}
 
-    renderQuestion();
-  </script>
+function openResultsList(){
+const box=document.getElementById("resultList");
+box.innerHTML=Object.keys(foods).map(k=>{
+const f=foods[k];
+return `<div class="result-item"><img src="${f.img}"><span>${f.name}<small>${f.type}</small></span></div>`;
+}).join("");
+document.getElementById("resultsModal").classList.add("show");
+}
+function closeResultsList(){document.getElementById("resultsModal").classList.remove("show");}
+function openDonate(){document.getElementById("donateModal").classList.add("show");}
+function closeDonate(){document.getElementById("donateModal").classList.remove("show");}
+function copyLink(){
+navigator.clipboard.writeText(location.href).then(()=>toast("已复制链接")).catch(()=>toast("请手动复制浏览器地址"));
+}
+function toast(t){
+const el=document.getElementById("toast");
+el.textContent=t;
+el.classList.add("show");
+setTimeout(()=>el.classList.remove("show"),1800);
+}
+</script>
 </body>
 </html>
